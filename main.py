@@ -1,4 +1,5 @@
-from DS_package.data import loader, pipeline, preprocess
+from DS_package.data import loader, pipeline, preprocessing_pipeline
+from DS_package.features import features_pipeline, text_features
 
 df = loader.load_data('DS_package/data/datasets/row/Titanic-Dataset.csv')
 
@@ -21,5 +22,8 @@ clean_df = pipeline.preprocessing_pipeline(df, config)
 loader.save_data(clean_df, "DS_package/data/datasets/processed/Titanic-Dataset-clean.csv")
 
 
+# feature engeneering
+print(clean_df.info())
 
-
+# vector = text_features.tfidf_features(['Ticket'])
+# print(vector.X)

@@ -14,4 +14,3 @@ def log_transform(df, column):
     df[column] = np.log1p(df[column])
     return df
 
-

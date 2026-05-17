@@ -1,45 +1,60 @@
-from DS_package.features import build_features , text_features
-import pandas as pd
 from DS_package.features import build_features, text_features
-from sklearn.feature_extraction.text import TfidfVectorizer
+import pandas as pd
 
 
-def features_pipeline(df, columns_for_log_transform, text_column=None):
+def features_pipeline(df, log_columns, text_lenght_col=None, word_coun_col=None, text_columns=None):
     """
-    Full feature engineering pipeline that returns ONLY dataframe
-    """
+       Full feature engineering pipeline for structured and text data.
 
+       :param df: pandas.DataFrame
+           Input dataset containing raw features.
+
+       :param log_columns: list of str
+           List of numerical columns to apply log transformation.
+
+       :param  text_lenght_col: str, optional
+           Name of the column used for creating text length feature.
+
+       :param word_coun_col: str, optional
+           Name of the column used for creating word count feature.
+           (Usually the same as text_lenght_col)
+
+       :param text_columns: list of str, optional
+           List of text columns to apply TF-IDF vectorization.
+
+       :return: pandas.DataFrame enriched with:
+           - dataset-specific features (FamilySize, IsAlone)
+           - log-transformed numerical features
+           - text statistics (length, word count)
+           - TF-IDF features for selected text columns
+       """
+
+
+    # 1. Dataset-specific features
     df = build_features.create_family_size(df)
     df = build_features.create_is_alone(df)
 
-    for col in columns_for_log_transform:
-        df = build_features.log_transform(df, col)
+    # new features
 
-    # -------------------------
-    # 2. Text features (converted into df columns)
-    # -------------------------
-    if text_column and text_column in df.columns:
-        text_series = df[text_column].fillna("")
+    df = text_features.text_length(df, text_lenght_col)
+    df = text_features.word_count(df, word_coun_col)
 
-        # TF-IDF
-        vectorizer = TfidfVectorizer(max_features=50)  # зменшуємо розмір
+    # 2. log -columns
+    if log_columns:
+        for col in log_columns:
+            if col in df.columns:
+                df = build_features.log_transform(df, col)
 
-        tfidf_matrix = vectorizer.fit_transform(text_series)
+    # tfidf_df
+    for col in text_columns:
+        if col in df.columns:
 
-        # перетворюємо у df колонки
-        tfidf_df = pd.DataFrame(
-            tfidf_matrix.toarray(),
-            columns=[f"tfidf_{i}" for i in range(tfidf_matrix.shape[1])]
-        )
+            tfidf_df = text_features.tfidf_features(df[col])
 
-        # додаємо до основного df
-        df = pd.concat([df.reset_index(drop=True), tfidf_df], axis=1)
+            df = pd.concat(
+                [df.reset_index(drop=True),
+                 tfidf_df.reset_index(drop=True)],
+                axis=1
+            )
 
-        # додаткові текстові фічі
-        df = text_features.text_length(df, text_column)
-        df = text_features.word_count(df, text_column)
-
-    # -------------------------
-    # return ONLY df
-    # -------------------------
     return df
