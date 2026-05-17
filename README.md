@@ -11,3 +11,6 @@ TODO:
 2) def preprocessing_pipeline(df, proceed_columns, missing_threshold=70): - захардкоджений код, розкоментувати, можливо передаати вручну у пайплайн для виклкику
 
 3) змінити типи імпортів
+
+
+4) передивитись код наступного pipline
