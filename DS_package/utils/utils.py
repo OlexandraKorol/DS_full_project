@@ -1,18 +1,11 @@
-def general_data(df):
-    return df.info()
-
-
 def missing_report(df):
     return df.isnull().sum()
 
+def drop_high_missing(df, threshold=70):
+    missing = df.isnull().mean() * 100
+    cols_to_drop = missing[missing > threshold].index
 
+    df = df.drop(columns=cols_to_drop)
 
-def missing_percent(df):
-    return (df.isnull().mean() * 100).sort_values(ascending=False)
-
-
-
-def basic_stats(df):
-    return df.describe()
-
+    return df
 

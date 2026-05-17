@@ -1,5 +1,4 @@
-from DS_package.data import loader
-from DS_package.utils.utils import general_data, missing_report, missing_percent, basic_stats
+from DS_package.data import loader, pipeline, preprocess
 
 df = loader.load_data('DS_package/data/datasets/row/Titanic-Dataset.csv')
 
@@ -8,10 +7,18 @@ df = loader.load_data('DS_package/data/datasets/row/Titanic-Dataset.csv')
 # [Age] - 19.865320
 # [Embarked] - 0.224467
 
-print(missing_percent(df))
-
 # можливо показати це візуально
 
+
+#  preprocess
+
+config = {
+    "Age": preprocess.FillNa.MEAN,
+    "Embarked": preprocess.FillNa.MODE,
+}
+
+clean_df = pipeline.preprocessing_pipeline(df, config)
+loader.save_data(clean_df, "DS_package/data/datasets/processed/Titanic-Dataset-clean.csv")
 
 
 

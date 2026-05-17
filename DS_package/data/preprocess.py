@@ -8,6 +8,13 @@ class FillNa(Enum):
     MEAN = "median"
 
 def fill_missing(df, column, strategy: FillNa):
+
+    """
+    :param df:  df
+    :param column: column to destroy na
+    :param strategy: how to destroy
+    :return: df
+    """
     if strategy == FillNa.MEAN:
         value = df[column].mean()
 
