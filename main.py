@@ -1,7 +1,9 @@
 from DS_package.data import loader, preprocessing_pipeline, preprocess
 from DS_package.features import features_pipeline
+from DS_package.models import models_pipeline
 import numpy as np
 
+from models import models_pipeline
 
 df = loader.load_data('DS_package/data/datasets/raw/Titanic-Dataset.csv')
 
@@ -20,6 +22,6 @@ text_columns = ["Name", "Ticket", "Embarked"]
 
 df = features_pipeline.features_pipeline(df, log_columns, text_columns)
 
-# result = run_pipeline(df, target="Survived")
-#
-# print(result)
+result = models_pipeline.run_pipeline(df, target="Survived")
+
+print(result)
