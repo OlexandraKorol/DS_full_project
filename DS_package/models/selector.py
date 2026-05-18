@@ -1,5 +1,5 @@
-from models.train import models
-from models.evaluate import evaluate
+from DS_package.models.train import models
+from DS_package.models.evaluate import evaluate
 
 def select_best_model(
         X_train,

@@ -2,7 +2,7 @@ from DS_package.features import build_features, text_features
 import pandas as pd
 
 
-def features_pipeline(df, log_columns, text_lenght_col=None, word_coun_col=None, text_columns=None):
+def features_pipeline(df, log_columns, text_length_col=None, word_count_col=None, text_columns=None):
     """
        Full feature engineering pipeline for structured and text data.
 
@@ -12,12 +12,12 @@ def features_pipeline(df, log_columns, text_lenght_col=None, word_coun_col=None,
        :param log_columns: list of str
            List of numerical columns to apply log transformation.
 
-       :param  text_lenght_col: str, optional
+       :param  text_length_col: str, optional
            Name of the column used for creating text length feature.
 
-       :param word_coun_col: str, optional
+       :param word_count_col: str, optional
            Name of the column used for creating word count feature.
-           (Usually the same as text_lenght_col)
+           (Usually the same as text_length_col)
 
        :param text_columns: list of str, optional
            List of text columns to apply TF-IDF vectorization.
@@ -35,10 +35,10 @@ def features_pipeline(df, log_columns, text_lenght_col=None, word_coun_col=None,
     df = build_features.create_is_alone(df)
 
     # new features
-    if text_lenght_col is not None:
-        df = text_features.text_length(df, text_lenght_col)
-    if word_coun_col is not None:
-        df = text_features.word_count(df, word_coun_col)
+    if text_length_col is not None:
+        df = text_features.text_length(df, text_length_col)
+    if text_length_col is not None:
+        df = text_features.word_count(df, word_count_col)
 
     # 2. log -columns
     if log_columns:

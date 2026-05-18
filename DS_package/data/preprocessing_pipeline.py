@@ -1,16 +1,16 @@
 from DS_package.data import  preprocess
 from DS_package.utils import utils
 
-def preprocessing_pipeline(df, proceed_columns, missing_threshold=70, categorical_columns=None):
+def preprocessing_pipeline(df, proceed_columns, categorical_columns=None):
 
     """
+    :param categorical_columns:
     :param df: input dataframe
     :param proceed_columns: dict {column: FillNa strategy}
-    :param missing_threshold: % threshold for dropping columns
     :return: processed dataframe
     """
 
-    df = utils.drop_high_missing(df, threshold=missing_threshold)
+    df = utils.drop_high_missing(df, threshold=70)
 
     for column, strategy in proceed_columns.items():
         if column in df.columns:
