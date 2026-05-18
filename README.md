@@ -1,10 +1,24 @@
 # DS Package
 
 Підсумкова практична робота з курсу Data Science in Python.
-
 Проєкт реалізує повний цикл Data Science workflow: завантаження даних, preprocessing, feature engineering, feature selection, навчання моделей та оцінювання результатів.
 
-Використано самостійно обраний датасет [wine-dataset](https://www.kaggle.com/datasets/elvinrustam/wine-dataset)
+Використано самостійно обраний датасет [Titanic Dataset](https://www.kaggle.com/datasets/yasserh/titanic-dataset)
+
+## Запуск проєкту
+
+### Встановлення залежностей
+
+```bash
+pip install -r requirements.txt
+```
+
+### Запуск main.py
+
+```bash
+python main.py
+```
+
 
 ## Структура проєкту
 
@@ -36,6 +50,9 @@ DS_package/
 │   ├── utils.py
 │   └── validation.py
 │
+├── tests/
+│   ├── test_preprocessing.py
+│   └── test_features.py
 ├── main.py
 └── README.md
 ```
@@ -262,10 +279,40 @@ split
 
 
 
-tests
+tests  python -m pytest
 flake8
 EDA
 feature selection
 
+# Тестування
+
+Для тестування проєкту використано `pytest`.
+
+Було написано unit tests для:
+
+* preprocessing функцій;
+* feature engineering функцій.
+
+## Запуск тестів
+
+```bash
+python -m pytest
+```
+
+Результат:
+
+```text
+===================== test session starts =====================
+platform darwin -- Python 3.14.0rc2, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/Sandra/PycharmProjects/DS_Project
+collected 4 items                                                                                                                                                          
+
+tests/test_features.py ...                                                                                                                                           [ 75%]
+tests/test_preprocessing.py .  
+
+===================== 4 passed =================================
+```
+
+---
 
 
