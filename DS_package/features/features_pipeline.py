@@ -35,17 +35,18 @@ def features_pipeline(df, log_columns, text_lenght_col=None, word_coun_col=None,
     df = build_features.create_is_alone(df)
 
     # new features
-
-    df = text_features.text_length(df, text_lenght_col)
-    df = text_features.word_count(df, word_coun_col)
+    if text_lenght_col is not None:
+        df = text_features.text_length(df, text_lenght_col)
+    if word_coun_col is not None:
+        df = text_features.word_count(df, word_coun_col)
 
     # 2. log -columns
     if log_columns:
         for col in log_columns:
             if col in df.columns:
                 df = build_features.log_transform(df, col)
-
-    # tfidf_df
+    #
+    # # tfidf_df
     for col in text_columns:
         if col in df.columns:
 

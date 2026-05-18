@@ -1,43 +1,26 @@
-from enum import Enum
-import pandas as pd
+from DS_package.data import  preprocess
+from DS_package.utils import utils
+from DS_package.features import text_features
 
-
-class FillNa(Enum):
-    MEDIAN = "median"
-    MODE = "mode"
-    MEAN = "median"
-
-def fill_missing(df, column, strategy: FillNa):
-
+def preprocessing_pipeline(df, proceed_columns, missing_threshold=70):
     """
-    :param df:  df
-    :param column: column to destroy na
-    :param strategy: how to destroy
-    :return: df
+    :param df: input dataframe
+    :param proceed_columns: dict {column: FillNa strategy}
+    :param missing_threshold: % threshold for dropping columns
+    :return: processed dataframe
     """
-    if strategy == FillNa.MEAN:
-        value = df[column].mean()
 
-    elif strategy == FillNa.MEDIAN:
-        value = df[column].median()
+    df = utils.drop_high_missing(df, threshold=missing_threshold)
 
-    elif strategy == FillNa.MODE:
-        value = df[column].mode()[0]
+    for column, strategy in proceed_columns.items():
+        if column in df.columns:
+            df = preprocess.fill_missing(df, column, strategy)
 
-    else:
-        raise ValueError("Unknown fill strategy")
-
-    df[column] = df[column].fillna(value)
-
+    # df = text_features.tfidf_features(df, ["Sex", "Embarked"])
     return df
+    # df = preprocess.encode_categorical(df, ["Sex", "Embarked"])
+    #
+    # if "CreatedAt" in df.columns:
+    #     df = preprocess.convert_dates(df, "CreatedAt")
 
-
-def encode_categorical(df, columns):
-    df = pd.get_dummies(df, columns=[columns])
-    return df
-
-
-def convert_dates(df, column):
-    df[column] = pd.to_datetime(df[column])
-    df[f"{column}_year"] = df[column].dt.year
     return df

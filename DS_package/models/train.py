@@ -1,8 +1,22 @@
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
-def train_model(X_train, y_train):
-    model = LogisticRegression()
-    model.fit(X_train, y_train)
-    return model
+models = {
+    "KNN": Pipeline([
+        ("scaler", StandardScaler()),
+        ("model", KNeighborsClassifier())
+    ]),
 
+    "Naive Bayes": Pipeline([
+        ("scaler", StandardScaler()),
+        ("model", GaussianNB())
+    ]),
 
+    "Logistic": Pipeline([
+        ("scaler", StandardScaler()),
+        ("model", LogisticRegression())
+    ])
+}

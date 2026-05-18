@@ -13,11 +13,11 @@ def tfidf_features(text_series, max_features=500):
     return tfidf_df
 
 def text_length(df, column):
-    df[column + "_len"] = df[column].apply(len)
+    df[f"{column}" + "_len"] = df[column].apply(len)
     return df
 
 def word_count(df, column):
-    df[column + "_words"] = df[column].apply(lambda x: len(x.split()))
+    df[f"{column}" + "_words"] = df[column].apply(lambda x: len(x.split()))
     return df
 
 
