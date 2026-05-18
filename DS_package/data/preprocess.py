@@ -5,16 +5,17 @@ import pandas as pd
 class FillNa(Enum):
     MEDIAN = "median"
     MODE = "mode"
-    MEAN = "median"
+    MEAN = "mean"
 
 def fill_missing(df, column, strategy: FillNa):
 
     """
     :param df:  df
     :param column: column to destroy na
-    :param strategy: how to destroy
+    :param strategy: how to destroy. Avaible options: FillNa.MEDIAN, FillNa.MODE, FillNa.MEAN
     :return: df
     """
+
     if strategy == FillNa.MEAN:
         value = df[column].mean()
 
@@ -33,7 +34,7 @@ def fill_missing(df, column, strategy: FillNa):
 
 
 def encode_categorical(df, columns):
-    df = pd.get_dummies(df, columns=[columns])
+    df = pd.get_dummies(df, columns=columns)
     return df
 
 
