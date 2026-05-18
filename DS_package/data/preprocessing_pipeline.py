@@ -1,5 +1,6 @@
-from DS_package.data import  preprocess
+from DS_package.data import preprocess
 from DS_package.utils import utils
+
 
 def preprocessing_pipeline(df, proceed_columns, categorical_columns=None):
 
@@ -16,10 +17,9 @@ def preprocessing_pipeline(df, proceed_columns, categorical_columns=None):
         if column in df.columns:
             df = preprocess.fill_missing(df, column, strategy)
 
-
     df = preprocess.encode_categorical(df, categorical_columns)
 
     if "CreatedAt" in df.columns:
-       df = preprocess.convert_dates(df, "CreatedAt")
+        df = preprocess.convert_dates(df, "CreatedAt")
 
     return df

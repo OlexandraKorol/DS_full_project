@@ -1,6 +1,7 @@
 from DS_package.models.split_data import split_data
 from DS_package.models.selector import select_best_model
 
+
 def run_pipeline(df, target):
     (
         X_train,

@@ -7,12 +7,14 @@ class FillNa(Enum):
     MODE = "mode"
     MEAN = "mean"
 
+
 def fill_missing(df, column, strategy: FillNa):
 
     """
     :param df:  df
     :param column: column to destroy na
-    :param strategy: how to destroy. Avaible options: FillNa.MEDIAN, FillNa.MODE, FillNa.MEAN
+    :param strategy: how to destroy. Avaible options:
+    FillNa.MEDIAN, FillNa.MODE, FillNa.MEAN
     :return: df
     """
 

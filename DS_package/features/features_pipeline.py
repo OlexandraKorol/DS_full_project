@@ -29,24 +29,19 @@ def features_pipeline(df, log_columns, text_length_col=None, word_count_col=None
            - TF-IDF features for selected text columns
        """
 
-
-    # 1. Dataset-specific features
     df = build_features.create_family_size(df)
     df = build_features.create_is_alone(df)
 
-    # new features
     if text_length_col is not None:
         df = text_features.text_length(df, text_length_col)
     if text_length_col is not None:
         df = text_features.word_count(df, word_count_col)
 
-    # 2. log -columns
     if log_columns:
         for col in log_columns:
             if col in df.columns:
                 df = build_features.log_transform(df, col)
-    #
-    # # tfidf_df
+
     for col in text_columns:
         if col in df.columns:
 

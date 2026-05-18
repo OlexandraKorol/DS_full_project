@@ -1,6 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 
+
 def tfidf_features(text_series, max_features=500):
     vectorizer = TfidfVectorizer(max_features=max_features)
 
@@ -12,12 +13,12 @@ def tfidf_features(text_series, max_features=500):
     )
     return tfidf_df
 
+
 def text_length(df, column):
     df[f"{column}" + "_len"] = df[column].apply(len)
     return df
 
+
 def word_count(df, column):
     df[f"{column}" + "_words"] = df[column].apply(lambda x: len(x.split()))
     return df
-
-

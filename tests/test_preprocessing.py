@@ -1,9 +1,8 @@
 import pandas as pd
-
 from DS_package.data.preprocess import fill_missing, FillNa
 
-def test_fill_missing_mean():
 
+def test_fill_missing_mean():
     df = pd.DataFrame({
         "Age": [10, 20, None]
     })
