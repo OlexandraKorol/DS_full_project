@@ -4,6 +4,17 @@ import pandas as pd
 
 
 def features_pipeline(df, log_columns=None, text_columns=None):
+    """
+    Full feature engineering pipeline.
+
+    :param df: Input dataframe.
+    :param log_columns: list of str, optional
+        Numerical columns for log transformation.
+    :param text_columns: list of str, optional
+        Text columns for TF-IDF feature extraction.
+    :return: Dataframe with engineered features.
+    """
+
     df = df.copy()
 
     if log_columns is None:

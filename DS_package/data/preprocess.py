@@ -9,6 +9,21 @@ class FillNa(Enum):
 
 
 def fill_missing(df, column, strategy: FillNa):
+    """
+    Fills missing values in a dataframe column
+    using the selected strategy.
+
+    :param df: Input dataframe.
+    :param column: Name of the column to process.
+    :param strategy: FillNa
+        Missing value filling strategy.
+        Available options:
+        - FillNa.MEAN
+        - FillNa.MEDIAN
+        - FillNa.MODE
+
+    :return: Dataframe with filled missing values.
+    """
     df = df.copy()
 
     if strategy == FillNa.MEAN:
