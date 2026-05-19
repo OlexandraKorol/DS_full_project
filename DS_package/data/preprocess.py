@@ -9,14 +9,7 @@ class FillNa(Enum):
 
 
 def fill_missing(df, column, strategy: FillNa):
-
-    """
-    :param df:  df
-    :param column: column to destroy na
-    :param strategy: how to destroy. Avaible options:
-    FillNa.MEDIAN, FillNa.MODE, FillNa.MEAN
-    :return: df
-    """
+    df = df.copy()
 
     if strategy == FillNa.MEAN:
         value = df[column].mean()
@@ -35,12 +28,27 @@ def fill_missing(df, column, strategy: FillNa):
     return df
 
 
-def encode_categorical(df, columns):
-    df = pd.get_dummies(df, columns=columns)
-    return df
+def encode_all_objects(df):
+    df = df.copy()
+
+    obj_cols = df.select_dtypes(include=["object"]).columns
+
+    return pd.get_dummies(
+        df,
+        columns=obj_cols,
+        drop_first=True
+    )
 
 
 def convert_dates(df, column):
+    df = df.copy()
+
     df[column] = pd.to_datetime(df[column])
+
     df[f"{column}_year"] = df[column].dt.year
+    df[f"{column}_month"] = df[column].dt.month
+    df[f"{column}_day"] = df[column].dt.day
+
+    df = df.drop(columns=[column])
+
     return df

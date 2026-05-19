@@ -2,16 +2,14 @@ from DS_package.models.split_data import split_data
 from DS_package.models.selector import select_best_model
 
 
-def run_pipeline(df, target):
+def run_pipeline(X, y):
+
     (
         X_train,
         X_test,
         y_train,
         y_test
-    ) = split_data(
-        df,
-        target
-    )
+    ) = split_data(X, y)
 
     name, model, score = select_best_model(
         X_train,

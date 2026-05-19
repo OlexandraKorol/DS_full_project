@@ -3,25 +3,32 @@ from DS_package.features import features_pipeline
 from DS_package.models import models_pipeline
 import numpy as np
 
-from models import models_pipeline
 
-df = loader.load_data('DS_package/data/datasets/raw/Titanic-Dataset.csv')
+df = loader.load_data("DS_package/data/datasets/raw/Titanic-Dataset.csv")
+
+
+y = df["Survived"].astype(int)
+X = df.drop(columns=["Survived"])
+
 
 config = {
     "Age": preprocess.FillNa.MEAN,
     "Embarked": preprocess.FillNa.MODE,
 }
 
-categorical_cols = ["Sex", "Embarked"]
+X = preprocessing_pipeline.preprocessing_pipeline(X, config, encode_objects=False)
 
-clean_df = preprocessing_pipeline.preprocessing_pipeline(df, config, categorical_cols)
-loader.save_data(clean_df, "DS_package/data/datasets/processed/Titanic-Dataset-clean.csv")
 
-log_columns = clean_df.select_dtypes(include=np.number).columns.tolist()
-text_columns = ["Name", "Ticket", "Embarked"]
+log_columns = (X.select_dtypes(include=np.number).columns.tolist())
 
-df = features_pipeline.features_pipeline(df, log_columns, text_columns)
+text_columns = ["Name", "Ticket"]
 
-result = models_pipeline.run_pipeline(df, target="Survived")
+X = features_pipeline.features_pipeline(X, log_columns=log_columns, text_columns=text_columns)
+
+
+loader.save_data(X, "DS_package/data/datasets/processed/Titanic-clean.csv")
+
+
+result = models_pipeline.run_pipeline(X, y)
 
 print(result)

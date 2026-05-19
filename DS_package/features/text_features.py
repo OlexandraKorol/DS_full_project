@@ -2,23 +2,46 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 
 
-def tfidf_features(text_series, max_features=500):
-    vectorizer = TfidfVectorizer(max_features=max_features)
+def tfidf_features(text_series, max_features=100):
+
+    text_series = text_series.fillna("").astype(str)
+
+    vectorizer = TfidfVectorizer(
+        max_features=max_features
+    )
 
     tfidf_matrix = vectorizer.fit_transform(text_series)
 
-    tfidf_df = pd.DataFrame(
+    return pd.DataFrame(
         tfidf_matrix.toarray(),
-        columns=[f"tfidf_{i}" for i in range(tfidf_matrix.shape[1])]
+        columns=[
+            f"tfidf_{i}"
+            for i in range(tfidf_matrix.shape[1])
+        ]
     )
-    return tfidf_df
 
 
 def text_length(df, column):
-    df[f"{column}" + "_len"] = df[column].apply(len)
+    df = df.copy()
+
+    df[f"{column}_len"] = (
+        df[column]
+        .fillna("")
+        .astype(str)
+        .apply(len)
+    )
+
     return df
 
 
 def word_count(df, column):
-    df[f"{column}" + "_words"] = df[column].apply(lambda x: len(x.split()))
+    df = df.copy()
+
+    df[f"{column}_words"] = (
+        df[column]
+        .fillna("")
+        .astype(str)
+        .apply(lambda x: len(x.split()))
+    )
+
     return df
